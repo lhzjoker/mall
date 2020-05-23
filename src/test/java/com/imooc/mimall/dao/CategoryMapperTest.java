@@ -18,7 +18,7 @@ public class CategoryMapperTest extends MimallApplicationTests {
 
     @Test
     public void queryById() {
-        Category category = categoryMapper.queryById(100002);
+        Category category = categoryMapper.queryById(100031);
         System.out.println(category.toString());
     }
 }
