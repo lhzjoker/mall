@@ -1,10 +1,12 @@
 spring:
   datasource:
-    password: 123456    #数据库3
+    password: root    #数据库2
     username: root
-    url: jdbc:mysql://192.168.206.131:3307/mimall?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://192.168.206.131:3306/mimall?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis:
   configuration:
     map-underscore-to-camel-case: true    #驼峰命名法
+    #控制台日志，输出sql语句
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mappers/*.xml  #使用xml时导入mappers包
