@@ -1,6 +1,7 @@
 package com.imooc.mimall.service;
 
 import com.imooc.mimall.pojo.User;
+import com.imooc.mimall.vo.ResponseVo;
 
 /**
  * @author lhz
@@ -9,7 +10,8 @@ import com.imooc.mimall.pojo.User;
  */
 public interface IUserService {
     //注册
-    void register(User user);
+    public ResponseVo register(User user);
+
     //登陆
-    void login(User user);
+    public ResponseVo login(User user);
 }
