@@ -1,7 +1,9 @@
 package com.imooc.mimall.Controllerr;
 
+import com.imooc.mimall.consts.MallConst;
 import com.imooc.mimall.enums.ResponseEnum;
-import com.imooc.mimall.form.UserForm;
+import com.imooc.mimall.form.UserLoginForm;
+import com.imooc.mimall.form.UserRegisterForm;
 import com.imooc.mimall.pojo.User;
 import com.imooc.mimall.service.IUserService;
 import com.imooc.mimall.vo.ResponseVo;
@@ -9,11 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
@@ -22,15 +25,14 @@ import javax.validation.Valid;
  * @date 2020/5/25 0:10
  */
 @RestController
-@RequestMapping("/user")
 @Slf4j
 public class UserController {
 
     @Autowired
     private IUserService userService;
 
-    @PostMapping("/register")
-    public ResponseVo register(@Valid @RequestBody UserForm userForm, BindingResult bindingResult) {
+    @PostMapping("/user/register")
+    public ResponseVo<User> register(@Valid @RequestBody UserRegisterForm userForm, BindingResult bindingResult) {
 
 //        error();
 
@@ -48,6 +50,37 @@ public class UserController {
         return userService.register(user);
     }
 
+    @PostMapping("/user/login")
+    public ResponseVo<User> login(@Valid @RequestBody UserLoginForm userLoginForm, BindingResult bindingResult, HttpSession session){
+        if(bindingResult.hasErrors()){
+            return ResponseVo.error(ResponseEnum.PARAMS_ERROR,bindingResult);
+        }
+
+        ResponseVo<User> userResponseVo = userService.login(userLoginForm.getUsername(), userLoginForm.getPassword());
+
+        //设置session，session保存在内存中，重启就没了，改进版：token+redis
+        session.setAttribute(MallConst.CURRENT_USER,userResponseVo.getData());
+
+        //打印sessionId
+        log.info("/login sessionId={}",session.getId());
+        return userResponseVo;
+    }
+
+    @GetMapping("/user")
+    public ResponseVo<User> UserInfo(HttpSession session){
+        //打印sessionId
+        log.info("/user sessionId={}",session.getId());
+        User user=(User) session.getAttribute(MallConst.CURRENT_USER);
+        return ResponseVo.success(user);
+    }
+
+
+    @PostMapping("/user/logout")
+    public ResponseVo logout(HttpSession session){
+        log.info("/user/logout sessionId={}",session.getId());
+        session.removeAttribute(MallConst.CURRENT_USER);
+        return ResponseVo.successByMsg("登出成功");
+    }
     private void error(){
         throw new RuntimeException("意外错误");
     }

@@ -22,9 +22,9 @@ public enum ResponseEnum {
 
     EMAIL_EXIST(4, "邮箱已存在"),
 
-    USERNAME_NOTEXIST(5, "用户名不存在"),
+    NEED_LOGIN(10, "用户未登陆，请先登陆"),
 
-    NEED_LOGIN(10, "用户未登陆，请先登陆");
+    USERNAME_OR_PASSWORD_ERROR(11,"用户名不存在或者密码错误");
 
     private Integer code;
 

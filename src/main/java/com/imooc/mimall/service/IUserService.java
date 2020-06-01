@@ -10,8 +10,8 @@ import com.imooc.mimall.vo.ResponseVo;
  */
 public interface IUserService {
     //注册
-    public ResponseVo register(User user);
+    public ResponseVo<User> register(User user);
 
     //登陆
-    public ResponseVo login(User user);
+    public ResponseVo<User> login(String username, String password);
 }

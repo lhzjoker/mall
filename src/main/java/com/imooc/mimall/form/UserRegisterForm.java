@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
  * 表单验证
  */
 @Data
-public class UserForm {
+public class UserRegisterForm {
 
     //@NotNull 判断值是否为null
     //@NotEmpty 用于集合

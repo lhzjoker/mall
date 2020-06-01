@@ -1,8 +1,8 @@
 spring:
   datasource:
-    password: root    #数据库2
+    password: 980508    #数据库1
     username: root
-    url: jdbc:mysql://192.168.206.131:3306/mimall?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/mimall?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis:
   configuration:

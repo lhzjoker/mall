@@ -20,4 +20,10 @@ public class RuntimeExceptionHandler {
     public ResponseVo handle(RuntimeException e){
         return ResponseVo.error(ResponseEnum.ERROR,e.getMessage());
     }
+
+    @ExceptionHandler(UserLoginException.class)   //用在方法上面表示遇到这个异常就执行以下方法
+    @ResponseBody
+    public ResponseVo userLoginHandle(RuntimeException e){
+        return ResponseVo.error(ResponseEnum.NEED_LOGIN);
+    }
 }
