@@ -4,6 +4,7 @@ import com.imooc.mimall.vo.CategoryVo;
 import com.imooc.mimall.vo.ResponseVo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author lhz
@@ -12,4 +13,6 @@ import java.util.List;
  */
 public interface ICategoryService {
     public ResponseVo<List<CategoryVo>> selectAll();
+
+    public void findSubCategoryId(Integer id, Set<Integer> resultSet);
 }
