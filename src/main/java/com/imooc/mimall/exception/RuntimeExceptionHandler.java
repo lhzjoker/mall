@@ -2,6 +2,8 @@ package com.imooc.mimall.exception;
 
 import com.imooc.mimall.enums.ResponseEnum;
 import com.imooc.mimall.vo.ResponseVo;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,5 +27,13 @@ public class RuntimeExceptionHandler {
     @ResponseBody
     public ResponseVo userLoginHandle(RuntimeException e){
         return ResponseVo.error(ResponseEnum.NEED_LOGIN);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    public ResponseVo notValidExceptionHandle(MethodArgumentNotValidException e){
+        //e可以拿到bindingResult
+        BindingResult bindingResult = e.getBindingResult();
+        return ResponseVo.error(ResponseEnum.PARAMS_ERROR,bindingResult);
     }
 }
