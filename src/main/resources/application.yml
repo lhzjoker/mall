@@ -4,6 +4,9 @@ spring:
     username: root
     url: jdbc:mysql://localhost:3306/mimall?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: localhost
+    port: 6379
 mybatis:
   configuration:
     map-underscore-to-camel-case: true    #驼峰命名法
