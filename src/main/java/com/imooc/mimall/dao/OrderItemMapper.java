@@ -1,6 +1,10 @@
 package com.imooc.mimall.dao;
 
 import com.imooc.mimall.pojo.OrderItem;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Set;
 
 public interface OrderItemMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +18,10 @@ public interface OrderItemMapper {
     int updateByPrimaryKeySelective(OrderItem record);
 
     int updateByPrimaryKey(OrderItem record);
+
+    int batchInsert(@Param("orderItemList") List<OrderItem> orderItemList);
+
+    List<OrderItem> selectByOrderNoSet(@Param("orderNoSet") Set<Long> orderNoSet);
+
+    List<OrderItem> selectByOrderNo(Long orderNo);
 }
