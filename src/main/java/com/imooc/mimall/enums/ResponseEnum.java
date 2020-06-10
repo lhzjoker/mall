@@ -30,13 +30,23 @@ public enum ResponseEnum {
 
     PRODUCT_NOT_EXIST(13,"商品不存在"),
 
-    PRODUCT_STOCK_ERROR(14,"库存不存在"),
+    PRODUCT_STOCK_ERROR(14,"库存不正确"),
 
     CART_PRODUCT_NOT_EXIST(15,"购物车里无此商品"),
 
     SHIPPINGS_NOT_EXIST(16,"抱歉，您暂时无已添加的收获地址"),
 
-    DELETE_SHIPPING_FAIL(17,"删除地址失败");
+    DELETE_SHIPPING_FAIL(17,"删除地址失败"),
+
+    SHIPPING_NOT_EXIST(18,"此收获地址不存在"),
+
+    CART_SELECTED_IS_EMPTY(19,"请选择商品后再下单"),
+
+    ORDER_NOT_EXIST(20,"订单不存在"),
+
+    ORDER_STATUS_ERROR(21,"订单状态错误"),
+
+    ;
 
     private Integer code;
 
