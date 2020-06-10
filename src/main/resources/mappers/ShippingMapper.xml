@@ -41,6 +41,7 @@
       #{receiverZip,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
+<!--    允许生成的主键返回-->
     <insert id="insertSelective" parameterType="com.imooc.mimall.pojo.Shipping" useGeneratedKeys="true"
             keyProperty="id">
         insert into mall_shipping
@@ -205,4 +206,24 @@
         where id = #{id,jdbcType=INTEGER}
         and user_id = #{userId,jdbcType=INTEGER}
     </update>
+    <select id="selectByIdAndUid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mall_shipping
+        where id = #{shippingId,jdbcType=INTEGER}
+        and user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <select id="selectByIdSet" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mall_shipping
+        <where>
+            <if test="idSet.size() > 0">
+                id in
+                <foreach collection="idSet" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
 </mapper>
