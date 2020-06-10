@@ -93,6 +93,13 @@ public class CartServiceImpl implements ICartService {
         Boolean selectedAll = true;
         Integer cartTotalQuantity = 0;
         BigDecimal cartTotalPrice = BigDecimal.ZERO;
+        if(entries.size()==0){
+            cartVo.setCartTotalPrice(cartTotalPrice);
+            cartVo.setCartTotalQuantity(cartTotalQuantity);
+            cartVo.setSelectedAll(selectedAll);
+            cartVo.setCartProductVoList(cartProductVoList);
+            return ResponseVo.success(cartVo);
+        }
         for (Map.Entry<String, String> entry : entries.entrySet()) {
             Integer productId = Integer.valueOf(entry.getKey());
             productIdSet.add(productId);
@@ -205,7 +212,7 @@ public class CartServiceImpl implements ICartService {
     }
 
     //遍历购物车
-    private List<Cart> listForCart(Integer uid) {
+    public List<Cart> listForCart(Integer uid) {
         HashOperations<String, String, String> opsForHash = stringRedisTemplate.opsForHash();
         String redisKey = String.format(CART_REDIS_KEY_TEMPLATE, uid);
         Map<String, String> entries = opsForHash.entries(redisKey);
