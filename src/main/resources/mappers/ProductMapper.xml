@@ -193,7 +193,7 @@
         from mall_product
         <where>
             <if test="productIdSet.size() > 0">
-                and id in
+                id in
                 <foreach collection="productIdSet" item="item" index="index" open="(" separator="," close=")">
                     #{item}
                 </foreach>
