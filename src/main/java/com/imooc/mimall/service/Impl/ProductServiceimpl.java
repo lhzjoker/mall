@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.imooc.mimall.dao.ProductMapper;
 import com.imooc.mimall.enums.ProductStatusEnum;
 import com.imooc.mimall.enums.ResponseEnum;
+import com.imooc.mimall.form.ProductAddForm;
 import com.imooc.mimall.pojo.Product;
 import com.imooc.mimall.service.ICategoryService;
 import com.imooc.mimall.service.IProductService;
@@ -72,4 +73,23 @@ public class ProductServiceimpl implements IProductService {
 
         return ResponseVo.success(pageInfo);
     }
+
+    @Override
+    public ResponseVo<ProductVo> add(ProductAddForm productAddForm) {
+        if(productMapper.selectByPrimaryKey(productAddForm.getId())!=null){
+            return ResponseVo.error(ResponseEnum.PRODUCT_EXIST);
+        }
+        Product product = new Product();
+        BeanUtils.copyProperties(productAddForm,product);
+        int row = productMapper.insertSelective(product);
+        if(row<=0){
+            ResponseVo.error(ResponseEnum.ERROR);
+        }
+        Product product1 = productMapper.selectByPrimaryKey(productAddForm.getId());
+        ProductVo productVo = new ProductVo();
+        BeanUtils.copyProperties(product1,productVo);
+        return ResponseVo.success(productVo,"添加商品成功");
+    }
+
+
 }

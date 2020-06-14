@@ -46,6 +46,8 @@ public enum ResponseEnum {
 
     ORDER_STATUS_ERROR(21,"订单状态错误"),
 
+    PRODUCT_EXIST(22,"商品已存在"),
+
     ;
 
     private Integer code;

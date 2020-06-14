@@ -1,15 +1,16 @@
 package com.imooc.mimall.Controllerr;
 
 import com.github.pagehelper.PageInfo;
+import com.imooc.mimall.form.ProductAddForm;
 import com.imooc.mimall.service.IProductService;
 import com.imooc.mimall.vo.ProductDetailVo;
+import com.imooc.mimall.vo.ProductVo;
 import com.imooc.mimall.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author lhz
@@ -34,5 +35,10 @@ public class ProductController {
                                      @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
         ResponseVo<PageInfo> list = productService.list(categoryId, pageNum, pageSize);
         return list;
+    }
+
+    @PostMapping("/products")
+    public ResponseVo<ProductVo> add(@Valid @RequestBody ProductAddForm productAddForm){
+        return productService.add(productAddForm);
     }
 }
