@@ -6,6 +6,7 @@ import com.imooc.mimall.dao.ProductMapper;
 import com.imooc.mimall.enums.ProductStatusEnum;
 import com.imooc.mimall.enums.ResponseEnum;
 import com.imooc.mimall.form.ProductAddForm;
+import com.imooc.mimall.form.ProductUpdateForm;
 import com.imooc.mimall.pojo.Product;
 import com.imooc.mimall.service.ICategoryService;
 import com.imooc.mimall.service.IProductService;
@@ -38,12 +39,12 @@ public class ProductServiceimpl implements IProductService {
     @Override
     public ResponseVo<ProductDetailVo> productDetail(Integer productId) {
         Product product = productMapper.selectByPrimaryKey(productId);
-        if(product.getStatus().equals(ProductStatusEnum.OFF_SALE.getCode())||product.getStatus().equals(ProductStatusEnum.DELETE.getCode())){
+        if (product.getStatus().equals(ProductStatusEnum.OFF_SALE.getCode()) || product.getStatus().equals(ProductStatusEnum.DELETE.getCode())) {
             return ResponseVo.error(ResponseEnum.PRODUCT_OFF_SALE_OR_DELETE);
         }
-        ProductDetailVo productDetailVo =new ProductDetailVo();
-        BeanUtils.copyProperties(product,productDetailVo);
-        productDetailVo.setStock(product.getStock()>100?100:productDetailVo.getStock());    //设置虚假库存，让别人只看到一部分
+        ProductDetailVo productDetailVo = new ProductDetailVo();
+        BeanUtils.copyProperties(product, productDetailVo);
+        productDetailVo.setStock(product.getStock() > 100 ? 100 : productDetailVo.getStock());    //设置虚假库存，让别人只看到一部分
         return ResponseVo.success(productDetailVo);
     }
 
@@ -57,7 +58,7 @@ public class ProductServiceimpl implements IProductService {
         }
 
         //使用mybatis分页器，pageNum表示第几页，pageSize表示每页的条数
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         //返回值赋值成productVo类型
         List<Product> productList = productMapper.selectByCategoryIdSet(categoryIdSet);
         List<ProductVo> productVoList = productList.stream()
@@ -76,19 +77,40 @@ public class ProductServiceimpl implements IProductService {
 
     @Override
     public ResponseVo<ProductVo> add(ProductAddForm productAddForm) {
-        if(productMapper.selectByPrimaryKey(productAddForm.getId())!=null){
+        if (productMapper.selectByPrimaryKey(productAddForm.getId()) != null) {
             return ResponseVo.error(ResponseEnum.PRODUCT_EXIST);
         }
         Product product = new Product();
-        BeanUtils.copyProperties(productAddForm,product);
+        BeanUtils.copyProperties(productAddForm, product);
         int row = productMapper.insertSelective(product);
-        if(row<=0){
+        if (row <= 0) {
             ResponseVo.error(ResponseEnum.ERROR);
         }
         Product product1 = productMapper.selectByPrimaryKey(productAddForm.getId());
         ProductVo productVo = new ProductVo();
-        BeanUtils.copyProperties(product1,productVo);
-        return ResponseVo.success(productVo,"添加商品成功");
+        BeanUtils.copyProperties(product1, productVo);
+        return ResponseVo.success(productVo, "添加商品成功");
+    }
+
+    @Override
+    public ResponseVo update(Integer productId, ProductUpdateForm productUpdateForm) {
+        Product product = new Product();
+        product.setId(productId);
+        BeanUtils.copyProperties(productUpdateForm,product);
+        int row = productMapper.updateByPrimaryKeySelective(product);
+        if(row<=0){
+            return ResponseVo.error(ResponseEnum.ERROR);
+        }
+        return ResponseVo.successByMsg("更新成功");
+    }
+
+    @Override
+    public ResponseVo delete(Integer productId) {
+        int row = productMapper.deleteByPrimaryKey(productId);
+        if(row<=0){
+            return ResponseVo.error(ResponseEnum.ERROR);
+        }
+        return ResponseVo.successByMsg("删除成功");
     }
 
 

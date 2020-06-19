@@ -2,6 +2,7 @@ package com.imooc.mimall.service;
 
 import com.github.pagehelper.PageInfo;
 import com.imooc.mimall.form.ProductAddForm;
+import com.imooc.mimall.form.ProductUpdateForm;
 import com.imooc.mimall.vo.ProductDetailVo;
 import com.imooc.mimall.vo.ProductVo;
 import com.imooc.mimall.vo.ResponseVo;
@@ -17,4 +18,8 @@ public interface IProductService {
     public ResponseVo<PageInfo> list(Integer categoryId, Integer pageNum, Integer pageSize);
 
     public ResponseVo<ProductVo> add(ProductAddForm productAddForm);
+
+    public ResponseVo update(Integer productId, ProductUpdateForm productUpdateForm);
+
+    public ResponseVo delete(Integer productId);
 }

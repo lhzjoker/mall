@@ -2,6 +2,7 @@ package com.imooc.mimall.Controllerr;
 
 import com.github.pagehelper.PageInfo;
 import com.imooc.mimall.form.ProductAddForm;
+import com.imooc.mimall.form.ProductUpdateForm;
 import com.imooc.mimall.service.IProductService;
 import com.imooc.mimall.vo.ProductDetailVo;
 import com.imooc.mimall.vo.ProductVo;
@@ -40,5 +41,15 @@ public class ProductController {
     @PostMapping("/products")
     public ResponseVo<ProductVo> add(@Valid @RequestBody ProductAddForm productAddForm){
         return productService.add(productAddForm);
+    }
+
+    @DeleteMapping("/products/{productId}")
+    public ResponseVo delete(@PathVariable("productId") Integer productId){
+        return productService.delete(productId);
+    }
+
+    @PostMapping("/products/{productId}")
+    public ResponseVo update(@PathVariable("productId") Integer productId,@Valid @RequestBody ProductUpdateForm productUpdateForm){
+        return productService.update(productId,productUpdateForm);
     }
 }
